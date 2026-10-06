@@ -1,11 +1,11 @@
 # One True Shell: Django
 
-spec: 0.1
+spec: 0.2
 
 [![conformance](https://github.com/simkimsia/one-true-shell-django/actions/workflows/conformance.yml/badge.svg)](https://github.com/simkimsia/one-true-shell-django/actions/workflows/conformance.yml)
 
 A Django implementation of [One True Shell](https://github.com/simkimsia/one-true-shell), the testable contract for the One True SaaS Layout.
-It passes all 14 behaviors of the conformance suite at spec v0.1.0, and CI re-checks that on every push.
+It passes all 16 behaviors of the conformance suite at spec v0.2.0, and CI re-checks that on every push.
 
 Django + SQLite, server-rendered templates, and one vanilla-JS file (`shell/static/shell/shell.js`) for shortcuts, the palette, tabs, and optimistic writes.
 
@@ -26,12 +26,12 @@ Needs Python 3.11+. Set `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS` and `DJANGO_
 The suite lives in the contract repo, not here. Point it at this checkout:
 
 ```sh
-git clone --branch v0.1.0 https://github.com/simkimsia/one-true-shell
+git clone --branch v0.2.0 https://github.com/simkimsia/one-true-shell
 cd one-true-shell/conformance && npm ci && npx playwright install chromium
 IMPL_DIR=/path/to/one-true-shell-django npx playwright test
 ```
 
-`schema/` is a copy of the contract's `schema/` at v0.1.0. The suite asserts on seed records, so a drifted copy fails the run.
+`schema/` is a copy of the contract's `schema/` at v0.2.0. The suite asserts on seed records, so a drifted copy fails the run.
 
 This repo is also the worked example of an implementation living outside the contract repo: [`.github/workflows/conformance.yml`](.github/workflows/conformance.yml) is the whole recipe.
 
