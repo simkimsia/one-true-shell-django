@@ -7,6 +7,14 @@ spec: 0.2
 A Django implementation of [One True Shell](https://github.com/simkimsia/one-true-shell), the testable contract for the One True SaaS Layout.
 It passes all 16 behaviors of the conformance suite at spec v0.2.0, and CI re-checks that on every push.
 
+![A project open in the shell: left rail, sidebar with Projects current, three record tabs with Website Revamp active, the record in main, its fields in the right aside, and the status bar](docs/record.png)
+
+A record open in a tab. All six regions are visible, and the sidebar marks the active tab's entity (B14).
+
+![The command palette open over the Customers list, filtered to "pro", showing "Projects" and "Create Project"](docs/palette.png)
+
+`Ctrl K` opens the palette over any page. Typing filters, and `Enter` runs the top match. The open tabs stay put while you browse lists (B13).
+
 Django + SQLite, server-rendered templates, and one vanilla-JS file (`shell/static/shell/shell.js`) for shortcuts, the palette, tabs, and optimistic writes.
 
 - Entities are read from `schema/entities.yaml` at runtime. There is one generic `Record` model (`entity`, `rid`, JSON `data`), so new entities need no migration.
