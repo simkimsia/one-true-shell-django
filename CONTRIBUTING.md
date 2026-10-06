@@ -23,7 +23,7 @@ Both checks CI runs must pass locally:
 
 ```sh
 python manage.py test shell
-git clone --branch v0.2.0 https://github.com/simkimsia/one-true-shell /tmp/one-true-shell
+git clone --branch v0.3.0 https://github.com/simkimsia/one-true-shell /tmp/one-true-shell
 (cd /tmp/one-true-shell/conformance && npm ci && npx playwright install chromium && IMPL_DIR="$OLDPWD" npx playwright test)
 ```
 

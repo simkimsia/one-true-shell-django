@@ -1,11 +1,11 @@
 # One True Shell: Django
 
-spec: 0.2
+spec: 0.3
 
 [![conformance](https://github.com/simkimsia/one-true-shell-django/actions/workflows/conformance.yml/badge.svg)](https://github.com/simkimsia/one-true-shell-django/actions/workflows/conformance.yml)
 
 A Django implementation of [One True Shell](https://github.com/simkimsia/one-true-shell), the testable contract for the One True SaaS Layout.
-It passes all 16 behaviors of the conformance suite at spec v0.2.0, and CI re-checks that on every push.
+It passes all 16 behaviors of the conformance suite at spec v0.3.0, and CI re-checks that on every push.
 
 ![A project open in the shell: left rail, sidebar with Projects current, three record tabs with Website Revamp active, the record in main, its fields in the right aside, and the status bar](docs/record.png)
 
@@ -31,29 +31,29 @@ Needs Python 3.12+ (Django 6.0 requires it). Set `DJANGO_SECRET_KEY`, `DJANGO_AL
 
 ## Versions
 
-**This implementation targets One True Shell spec v0.2.**
-Its own version is separate: it is at 0.1.0 and moves on its own schedule.
+**This implementation targets One True Shell spec v0.3.**
+Its own version is separate: it is at 0.2.0 and moves on its own schedule.
 
 Both, plus the versions of the running stack, are readable at runtime, the way [toons](https://github.com/alesanfra/toons) exposes `__toon_spec__` next to `__version__`:
 
 ```python
 import shell
 
-shell.__shell_spec__   # "0.2"    spec version
-shell.__version__      # "0.1.0"  implementation version
+shell.__shell_spec__   # "0.3"    spec version
+shell.__version__      # "0.2.0"  implementation version
 ```
 
 ```sh
 $ python manage.py shell_version
-one-true-shell-django 0.1.0
-spec 0.2
+one-true-shell-django 0.2.0
+spec 0.3
 python 3.12.2
 django 6.0.8
 sqlite 3.46.0
 pyyaml 6.0.3
 
 $ curl -s localhost:8000/api/version
-{"implementation": "one-true-shell-django", "version": "0.1.0", "spec": "0.2",
+{"implementation": "one-true-shell-django", "version": "0.2.0", "spec": "0.3",
  "stack": {"python": "3.12.2", "django": "6.0.8", "sqlite": "3.46.0", "pyyaml": "6.0.3"}}
 ```
 
@@ -66,12 +66,12 @@ Stack versions are read from the running process, so they report what is actuall
 The suite lives in the contract repo, not here. Point it at this checkout:
 
 ```sh
-git clone --branch v0.2.0 https://github.com/simkimsia/one-true-shell
+git clone --branch v0.3.0 https://github.com/simkimsia/one-true-shell
 cd one-true-shell/conformance && npm ci && npx playwright install chromium
 IMPL_DIR=/path/to/one-true-shell-django npx playwright test
 ```
 
-`schema/` is a copy of the contract's `schema/` at v0.2.0. The suite asserts on seed records, so a drifted copy fails the run.
+`schema/` holds the entities and seed this app runs with: the contract's sample data. Since spec 0.3 the suite reads them from here, and passes the directory to `run.sh` as `SHELL_SCHEMA_DIR`, which this app honors. Point that variable at another schema and the same app, unchanged, runs against different entities.
 
 This repo is also the worked example of an implementation living outside the contract repo: [`.github/workflows/conformance.yml`](.github/workflows/conformance.yml) is the whole recipe.
 

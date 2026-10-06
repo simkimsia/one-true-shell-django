@@ -4,7 +4,7 @@ This repo is one implementation of the [One True Shell](https://github.com/simki
 The contract (`SPEC.md`, `VISION.md`, and the Playwright suite) lives in that repo and wins over anything here.
 
 - Done means the conformance suite passes, not that the page looks right. Run it as the README's "Check conformance yourself" section shows, or read the `conformance` workflow.
-- `schema/` is a verbatim copy of the contract's `schema/` at the spec version in `README.md`. Never edit it here; re-copy it when the spec version changes, and bump `SPEC_REF` in `.github/workflows/conformance.yml` in the same commit.
+- `schema/` is this app's entities and seed, currently the contract's sample data. The suite reads it (spec 0.3+) and passes its path to `run.sh` as `SHELL_SCHEMA_DIR`; `config/settings.py` honors that variable, so keep it working. Data changes must still meet SPEC.md section 2 of the contract.
 - `shell.__version__` is this implementation's version and `shell.__shell_spec__` the spec it targets; `shell/__init__.py` is their single source. Changing `__shell_spec__` means re-copying `schema/`, bumping `SPEC_REF` and the README `spec:` line, and updating the assertion in `shell/tests.py`, which checks all of them.
 - Stack versions come from `shell/versions.py` at runtime. `requirements.txt` pins exact versions so CI tests what `IMPLEMENTATIONS.md` in the contract repo lists.
 - `run.sh` must reset data to `schema/seed.json` and serve on `${PORT:-8000}` in the foreground.

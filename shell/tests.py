@@ -20,10 +20,10 @@ class VersionConstantsTests(SimpleTestCase):
     def test_shell_spec_matches_everywhere_it_is_declared(self):
         """__shell_spec__ is the spec version this repo targets.
 
-        Bumping it means re-copying schema/ from the contract tag and updating
-        SPEC_REF in the conformance workflow and `spec:` in README.md.
+        Bumping it means updating SPEC_REF in the conformance workflow and
+        `spec:` in README.md, and checking schema/ still meets the new spec's data rules.
         """
-        self.assertEqual(shell.__shell_spec__, "0.2")
+        self.assertEqual(shell.__shell_spec__, "0.3")
         workflow = (REPO / ".github/workflows/conformance.yml").read_text()
         self.assertRegex(workflow, rf"SPEC_REF: v{re.escape(shell.__shell_spec__)}\.\d+")
         self.assertIn(f"spec: {shell.__shell_spec__}\n", (REPO / "README.md").read_text())
