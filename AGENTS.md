@@ -11,6 +11,12 @@ The contract (`SPEC.md`, `VISION.md`, and the Playwright suite) lives in that re
 - The suite presses keys immediately after a key that navigates (for example Escape, j, Enter). `shell.js` buffers keys during page loads and replays them; keep that path working when changing navigation.
 - Anything beyond the spec uses `data-shell-x-*` attributes.
 
+## Contributing and the gate
+
+Human-authored PRs targeting `main` go through `git push no-mistakes`, not a direct push to `origin` ([CONTRIBUTING.md](CONTRIBUTING.md)).
+The `Require no-mistakes` workflow pins the gate action to an immutable commit SHA, never `@main`; bumping that pin is its own PR.
+The owner (`simkimsia`) and bot accounts are exempt from the check.
+
 ## Maintaining this file
 
 Keep entries useful to almost every future session, point to the authoritative file instead of restating it, and prune before appending.

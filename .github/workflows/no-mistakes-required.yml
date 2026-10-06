@@ -1,0 +1,35 @@
+name: Require no-mistakes
+run-name: "PR #${{ github.event.pull_request.number }} body compliance - ${{ github.event.action }} - event ${{ github.run_number }} (run ${{ github.run_id }})"
+
+# Adopted from kunchenguid/axi: human-authored PRs to main must be raised through no-mistakes,
+# which writes a signature and a pipeline attestation into the PR body.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+# Body-bearing events get their own group so a pending opened/edited check is never replaced.
+concurrency:
+  group: no-mistakes-required-${{ github.event.pull_request.number }}-${{ (github.event.action == 'opened' || github.event.action == 'edited') && github.run_id || 'head-change' }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: PR must be raised via no-mistakes
+    runs-on: ubuntu-latest
+    # Automation accounts cannot route through the pipeline, so they are exempt at job level.
+    if: >-
+      github.event.pull_request.user.login != 'github-actions[bot]' &&
+      github.event.pull_request.user.login != 'dependabot[bot]'
+    steps:
+      # Pinned to an immutable commit, never @main: main is editable by the pull request being judged.
+      # Bumping the pin is its own deliberate pull request.
+      - name: Verify no-mistakes signature and pipeline attestation in PR body
+        uses: kunchenguid/no-mistakes/.github/actions/require-no-mistakes@4822244e763fd4c3d7f48be6433f92df10bb5b33 # v1.84.0
+        with:
+          exempt-authors: simkimsia

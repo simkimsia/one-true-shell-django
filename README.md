@@ -75,6 +75,10 @@ IMPL_DIR=/path/to/one-true-shell-django npx playwright test
 
 This repo is also the worked example of an implementation living outside the contract repo: [`.github/workflows/conformance.yml`](.github/workflows/conformance.yml) is the whole recipe.
 
+## Contributing
+
+PRs to `main` are raised through [no-mistakes](https://github.com/kunchenguid/no-mistakes); see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 MIT
