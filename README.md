@@ -15,7 +15,7 @@ A record open in a tab. All six regions are visible, and the sidebar marks the a
 
 `Ctrl K` opens the palette over any page. Typing filters, and `Enter` runs the top match. The open tabs stay put while you browse lists (B13).
 
-Django + SQLite, server-rendered templates, and one vanilla-JS file (`shell/static/shell/shell.js`) for shortcuts, the palette, tabs, and optimistic writes.
+Python 3.12, Django 6.0.8, SQLite (bundled with Python), server-rendered templates, and one vanilla-JS file (`shell/static/shell/shell.js`, no build step) for shortcuts, the palette, tabs, and optimistic writes.
 
 - Entities are read from `schema/entities.yaml` at runtime. There is one generic `Record` model (`entity`, `rid`, JSON `data`), so new entities need no migration.
 - `POST /api/<entity>` creates (the client picks the id, so the row can render before the server answers). `POST /api/<entity>/<id>` updates. Both validate against the schema.
@@ -27,7 +27,7 @@ Django + SQLite, server-rendered templates, and one vanilla-JS file (`shell/stat
 ./run.sh            # resets data to schema/seed.json, serves on ${PORT:-8000}
 ```
 
-Needs Python 3.11+. Set `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS` and `DJANGO_DEBUG` for anything beyond local use; `run.sh` uses Django's dev server.
+Needs Python 3.12+ (Django 6.0 requires it). Set `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS` and `DJANGO_DEBUG` for anything beyond local use; `run.sh` uses Django's dev server.
 
 ## Check conformance yourself
 
