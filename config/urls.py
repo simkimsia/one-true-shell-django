@@ -4,6 +4,7 @@ from shell import views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("api/version", views.version, name="version"),
     path("api/<str:entity>", views.api_create, name="api_create"),
     path("api/<str:entity>/<str:rid>", views.api_update, name="api_update"),
     path("<str:entity>", views.entity_list, name="list"),

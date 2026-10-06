@@ -32,6 +32,13 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Unit tests (version reporting)
+        working-directory: impl
+        run: |
+          python -m pip install -q -r requirements.txt
+          python manage.py test shell
+          python manage.py shell_version
+
       - name: Install the suite
         working-directory: contract/conformance
         run: |

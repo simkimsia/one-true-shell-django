@@ -29,6 +29,38 @@ Python 3.12, Django 6.0.8, SQLite (bundled with Python), server-rendered templat
 
 Needs Python 3.12+ (Django 6.0 requires it). Set `DJANGO_SECRET_KEY`, `DJANGO_ALLOWED_HOSTS` and `DJANGO_DEBUG` for anything beyond local use; `run.sh` uses Django's dev server.
 
+## Versions
+
+**This implementation targets One True Shell spec v0.2.**
+Its own version is separate: it is at 0.1.0 and moves on its own schedule.
+
+Both, plus the versions of the running stack, are readable at runtime, the way [toons](https://github.com/alesanfra/toons) exposes `__toon_spec__` next to `__version__`:
+
+```python
+import shell
+
+shell.__shell_spec__   # "0.2"    spec version
+shell.__version__      # "0.1.0"  implementation version
+```
+
+```sh
+$ python manage.py shell_version
+one-true-shell-django 0.1.0
+spec 0.2
+python 3.12.2
+django 6.0.8
+sqlite 3.46.0
+pyyaml 6.0.3
+
+$ curl -s localhost:8000/api/version
+{"implementation": "one-true-shell-django", "version": "0.1.0", "spec": "0.2",
+ "stack": {"python": "3.12.2", "django": "6.0.8", "sqlite": "3.46.0", "pyyaml": "6.0.3"}}
+```
+
+Every page also carries `<meta name="generator">` and `<meta name="one-true-shell-spec">`, and the status bar shows the spec version, linked to `/api/version`.
+Stack versions are read from the running process, so they report what is actually installed (SQLite and Python vary by machine).
+`shell/tests.py` asserts the spec version matches the workflow's `SPEC_REF` and the README, and that Django and PyYAML match `requirements.txt`, so a bump cannot pass unnoticed.
+
 ## Check conformance yourself
 
 The suite lives in the contract repo, not here. Point it at this checkout:

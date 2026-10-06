@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="generator" content="{{ impl.name }} {{ impl.version }}">
+  <meta name="one-true-shell-spec" content="{{ impl.spec }}">
   <title>{% block title %}One True Shell{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'shell/shell.css' %}">
   <script>
@@ -46,6 +48,7 @@
     <span>{% if current %}{{ current.plural }}{% else %}Home{% endif %}</span>
     <span class="status-msg" data-status aria-live="polite"></span>
     <span class="status-hint"><kbd>Ctrl K</kbd> commands · <kbd>?</kbd> shortcuts</span>
+    <a class="status-version" href="/api/version" title="{{ impl.name }} {{ impl.version }}">spec {{ impl.spec }}</a>
   </footer>
 </div>
 

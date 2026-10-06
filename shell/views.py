@@ -2,10 +2,11 @@ import json
 
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 
-from . import schema
+from . import __shell_spec__, __version__, schema
 from .models import Record
+from .versions import NAME, report
 
 
 def _titles(entity):
@@ -48,6 +49,7 @@ def _shell(request, template, entity=None, **ctx):
             "entities": [dict(e, count=counts[k]) for k, e in ents.items()],
             "current": ents.get(entity) if entity else None,
             "client_schema": _client_schema(),
+            "impl": {"name": NAME, "version": __version__, "spec": __shell_spec__},
             **ctx,
         },
     )
@@ -109,6 +111,11 @@ def _payload(request):
     except json.JSONDecodeError:
         return None
     return data if isinstance(data, dict) else None
+
+
+@require_GET
+def version(request):
+    return JsonResponse(report())
 
 
 @require_POST
