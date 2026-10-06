@@ -1,0 +1,80 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}One True Shell{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'shell/shell.css' %}">
+  <script>
+    // Hold plain keys pressed before shell.js loads; shell.js replays them.
+    window.__otsEarlyKeys = [];
+    window.__otsEarlyListener = function (e) {
+      if (!e.ctrlKey && !e.metaKey && !e.altKey) { window.__otsEarlyKeys.push(e.key); e.preventDefault(); }
+    };
+    document.addEventListener('keydown', window.__otsEarlyListener, true);
+  </script>
+</head>
+<body data-entity="{{ current.key|default:'' }}" {% block body_attrs %}{% endblock %}>
+<div class="shell" data-shell-root>
+  <nav class="rail" data-shell="rail" aria-label="Apps">
+    <a class="rail-mark" href="/" title="Home">◧</a>
+    <button type="button" class="rail-btn" data-action="palette" title="Command palette (Ctrl+K)">⌘</button>
+    <button type="button" class="rail-btn" data-action="shortcuts" title="Shortcuts (?)">?</button>
+  </nav>
+
+  <div class="sidebar" data-shell="sidebar">
+    <div class="sidebar-head">Workspace</div>
+    {% for e in entities %}
+      <a class="nav-item{% if current.key == e.key %} is-current{% endif %}" href="/{{ e.key }}" data-shell-nav="{{ e.key }}"{% if current.key == e.key %} aria-current="page"{% endif %}>
+        <span>{{ e.plural }}</span><span class="count">{{ e.count }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="tabs" data-shell="tabs" role="tablist" aria-label="Open records"></div>
+
+  <main class="main" data-shell="main">
+    {% block main %}{% endblock %}
+  </main>
+
+  <aside class="aside" data-shell="aside" {% block aside_attrs %}hidden{% endblock %}>
+    {% block aside %}{% endblock %}
+  </aside>
+
+  <footer class="statusbar" data-shell="statusbar">
+    <span>{% if current %}{{ current.plural }}{% else %}Home{% endif %}</span>
+    <span class="status-msg" data-status aria-live="polite"></span>
+    <span class="status-hint"><kbd>Ctrl K</kbd> commands · <kbd>?</kbd> shortcuts</span>
+  </footer>
+</div>
+
+<div class="overlay" data-shell="palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+  <div class="panel">
+    <input type="text" data-shell-palette-input placeholder="Type a command…" aria-label="Command" autocomplete="off" spellcheck="false">
+    <ul class="palette-list" role="listbox" data-palette-list></ul>
+  </div>
+</div>
+
+<div class="overlay" data-shell="shortcuts" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts" hidden>
+  <div class="panel">
+    <h2>Keyboard shortcuts</h2>
+    <dl class="shortcut-list">
+      <dt><kbd>Ctrl K</kbd> / <kbd>⌘ K</kbd></dt><dd>Command palette</dd>
+      <dt><kbd>j</kbd> / <kbd>k</kbd></dt><dd>Next / previous row</dd>
+      <dt><kbd>Enter</kbd></dt><dd>Open selected record</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Close overlay, or back to the list</dd>
+      <dt><kbd>[</kbd></dt><dd>Toggle sidebar</dd>
+      <dt><kbd>?</kbd></dt><dd>This sheet</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="overlay" data-create-overlay hidden>
+  <form class="panel" data-shell="create" hidden></form>
+</div>
+
+{{ client_schema|json_script:"shell-schema" }}
+<script src="{% static 'shell/shell.js' %}"></script>
+</body>
+</html>

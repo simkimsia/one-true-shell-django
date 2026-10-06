@@ -1,0 +1,24 @@
+{% extends "shell/base.html" %}
+{% block title %}{{ record.title }} · {{ current.label }}{% endblock %}
+{% block body_attrs %}data-record="{{ current.key }}/{{ record.id }}" data-record-title="{{ record.title }}"{% endblock %}
+{% block main %}
+  <p class="crumb"><a href="/{{ current.key }}">{{ current.plural }}</a> / {{ record.id }}</p>
+  <h1 data-record-h1>{{ record.title }}</h1>
+{% endblock %}
+{% block aside_attrs %}{% endblock %}
+{% block aside %}
+  <h2 class="aside-head">{{ current.label }}</h2>
+  {% for f in fields %}
+    <label class="field" data-shell-field="{{ f.name }}">
+      <span class="field-label">{{ f.name }}</span>
+      {% if f.options is None %}
+        <input type="text" name="{{ f.name }}" value="{{ f.value }}" data-saved="{{ f.value }}" autocomplete="off">
+      {% else %}
+        <select name="{{ f.name }}" data-saved="{{ f.value }}">
+          {% if f.type == "ref" %}<option value="">(none)</option>{% endif %}
+          {% for o in f.options %}<option value="{{ o.id }}"{% if o.id == f.value %} selected{% endif %}>{{ o.title }}</option>{% endfor %}
+        </select>
+      {% endif %}
+    </label>
+  {% endfor %}
+{% endblock %}

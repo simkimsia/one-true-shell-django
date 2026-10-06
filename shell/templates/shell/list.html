@@ -1,0 +1,16 @@
+{% extends "shell/base.html" %}
+{% block title %}{{ current.plural }} · One True Shell{% endblock %}
+{% block main %}
+  <header class="main-head">
+    <h1>{{ current.plural }}</h1>
+    <button type="button" class="btn" data-action="create">New {{ current.label }}</button>
+  </header>
+  <ul class="list" data-shell-list role="listbox" aria-label="{{ current.plural }}">
+    {% for r in rows %}
+      <li class="row" role="option" data-shell-row data-id="{{ r.id }}" aria-selected="false">
+        <a class="row-title" href="/{{ current.key }}/{{ r.id }}" tabindex="-1">{{ r.title }}</a>
+        {% for c in r.cells %}<span class="cell">{{ c }}</span>{% endfor %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

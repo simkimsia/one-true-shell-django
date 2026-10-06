@@ -1,0 +1,16 @@
+# Entity definitions for spec v0.1. The field marked `title: true` is shown as the record's <h1>.
+entities:
+  customers:
+    label: Customer
+    plural: Customers
+    fields:
+      name:  { type: string, required: true, title: true }
+      email: { type: string }
+      tier:  { type: enum, values: [free, pro, enterprise] }
+  projects:
+    label: Project
+    plural: Projects
+    fields:
+      name:     { type: string, required: true, title: true }
+      status:   { type: enum, values: [planned, active, done] }
+      customer: { type: ref, to: customers }

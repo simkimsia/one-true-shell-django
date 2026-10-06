@@ -1,0 +1,51 @@
+name: conformance
+
+# Runs the One True Shell conformance suite, at the spec version this repo declares, against this implementation.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  SPEC_REF: v0.1.0
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: impl
+
+      - uses: actions/checkout@v7
+        with:
+          repository: simkimsia/one-true-shell
+          ref: ${{ env.SPEC_REF }}
+          path: contract
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Install the suite
+        working-directory: contract/conformance
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run the suite
+        working-directory: contract/conformance
+        env:
+          IMPL_DIR: ${{ github.workspace }}/impl
+        run: npx playwright test
+
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-traces
+          path: contract/conformance/test-results/

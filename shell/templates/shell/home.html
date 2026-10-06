@@ -1,0 +1,8 @@
+{% extends "shell/base.html" %}
+{% block main %}
+  <h1>Welcome</h1>
+  <p class="muted">Pick an entity in the sidebar, or press <kbd>Ctrl K</kbd>.</p>
+  <ul class="home-list">
+    {% for e in entities %}<li><a href="/{{ e.key }}">{{ e.plural }}</a> <span class="muted">{{ e.count }}</span></li>{% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,11 @@
+{
+  "customers": [
+    { "id": "c1", "name": "Acme Corp", "email": "ops@acme.test", "tier": "enterprise" },
+    { "id": "c2", "name": "Globex",    "email": "hi@globex.test", "tier": "pro" },
+    { "id": "c3", "name": "Initech",   "email": "it@initech.test", "tier": "free" }
+  ],
+  "projects": [
+    { "id": "p1", "name": "Website Revamp", "status": "active",  "customer": "c1" },
+    { "id": "p2", "name": "Data Migration", "status": "planned", "customer": "c2" }
+  ]
+}
